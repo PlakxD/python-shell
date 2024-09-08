@@ -299,6 +299,7 @@ export class PythonShell extends EventEmitter {
         return this.defaultOptions.pythonPath ? this.defaultOptions.pythonPath : this.defaultPythonPath;
     }
 
+
     /**
      * checks syntax without executing code
      * @returns {Promise} rejects w/ stderr if syntax failure
