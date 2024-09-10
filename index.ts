@@ -289,10 +289,9 @@ export class PythonShell extends EventEmitter {
         const randomInt = getRandomInt();
         const filePath = tmpdir() + sep + `pythonShellSyntaxCheck${randomInt}.py`
 
-        const writeFilePromise = promisify(writeFile)
-        return writeFilePromise(filePath, code).then(() => {
-            return this.checkSyntaxFile(filePath)
-        })
+        const pythonPath = this.getPythonPath()
+        let compileCommand = `${pythonPath} -c "compile('${code}', '', 'exec');"`
+        return execPromise(compileCommand)
     }
 
     static getPythonPath() {
@@ -301,7 +300,7 @@ export class PythonShell extends EventEmitter {
 
 
     /**
-     * checks syntax without executing code
+     * checks syntax of a file without executing code
      * @returns {Promise} rejects w/ stderr if syntax failure
      */
     static async checkSyntaxFile(filePath: string) {
