@@ -84,11 +84,21 @@ describe('PythonShell', function () {
             })
         })
 
+        it('should check syntax with comments', function (done) {
+            PythonShell.checkSyntax("x=5#'").then(() => {
+                done();
+            })
+        })
+
         it('should invalidate bad syntax', function (done) {
             PythonShell.checkSyntax("x=").catch(() => {
                 done();
             })
         })
+
+    })
+
+    describe('#checkSyntaxFile(filePath:string)', function () {
 
         it('should check syntax from file', function (done) {
             PythonShell.checkSyntaxFile("test/python/echo_text.py").then(() => {
