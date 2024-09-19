@@ -75,23 +75,20 @@ describe('PythonShell', function () {
 
     describe('#checkSyntax(code:string)', function () {
 
-        // note checkSyntax is a wrapper around checkSyntaxFile
-        // so this tests checkSyntaxFile as well
-
         it('should check syntax', function (done) {
             PythonShell.checkSyntax("x=1").then(() => {
                 done();
             })
         })
 
-        it('should check syntax with comments', function (done) {
-            PythonShell.checkSyntax("x=5#'").then(() => {
+        it('should invalidate bad syntax', function (done) {
+            PythonShell.checkSyntax("x=").catch(() => {
                 done();
             })
         })
 
-        it('should invalidate bad syntax', function (done) {
-            PythonShell.checkSyntax("x=").catch(() => {
+        it('should check syntax with special characters', function (done) {
+            PythonShell.checkSyntax("x=5#'\"`_-~!@$%&^*()=+,<.>/?{}[]\\|;:").then(() => {
                 done();
             })
         })
@@ -126,6 +123,12 @@ describe('PythonShell', function () {
 
         it('should fail when invalid file location given', function (done) {
             PythonShell.checkSyntaxFile("test/python/not_exist.py").catch(() => {
+                done();
+            })
+        })
+
+        it('should succeed when file has special characters', function (done) {
+            PythonShell.checkSyntaxFile("test/python/special_characters.py").then(() => {
                 done();
             })
         })

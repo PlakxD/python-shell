@@ -288,6 +288,7 @@ export class PythonShell extends EventEmitter {
     static async checkSyntax(code: string) {
 
         const pythonPath = this.getPythonPath()
+        // Remember: x=5#\'\"`_-~!@\$%^^^&*()=+,^<.^>/?{}[]\\^|;:
         let compileCommand = `${pythonPath} -c "compile('${code}', '', 'exec');"`
         return execPromise(compileCommand)
     }
