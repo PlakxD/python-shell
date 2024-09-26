@@ -93,6 +93,18 @@ describe('PythonShell', function () {
             })
         })
 
+        it('should check syntax with special characters with some complexity to the formatting', function (done) {
+            PythonShell.checkSyntax("x='text\"'\\ny='\\'OnlyFirstQuotation'\\nz='OnlyEndQuotation\"'\\nif (x != y):\\n    z = '`<>'").then(() => {
+                done();
+            })
+        })
+
+        it('should fail if complex special character string is wrong', function (done) {
+            PythonShell.checkSyntax("x='text\"'\\ny=''OnlyFirstQuotation'\\nz='OnlyEndQuotation\"'\\nif (x != y):\\n    z = '`<>'").catch(() => {
+                done();
+            })
+        })
+
     })
 
     describe('#checkSyntaxFile(filePath:string)', function () {
